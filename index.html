@@ -178,12 +178,24 @@
     --accent-soft: rgba(96,165,250,0.1);
     --accent-glow: rgba(96,165,250,0.18);
   }
-  [data-theme="dark"] nav {
-    background: rgba(13,17,23,0.92);
+  /* CSS fallback: respect OS dark mode even if JS hasn't run yet */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #1e2530;
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(96,165,250,0.4);
+      --text: #e6edf3;
+      --text-muted: rgba(230,237,243,0.72);
+      --text-dim: rgba(230,237,243,0.45);
+      --accent: #60a5fa;
+      --accent-light: #93c5fd;
+      --accent-soft: rgba(96,165,250,0.1);
+      --accent-glow: rgba(96,165,250,0.18);
+    }
   }
-  [data-theme="dark"] .result-item {
-    background: var(--bg2);
-  }
+  /* All sections use CSS variables — dark mode handled automatically via :root [data-theme="dark"] overrides */
   .theme-toggle {
     width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
     background: var(--bg3); cursor: pointer; display: flex; align-items: center;
@@ -193,10 +205,10 @@
   .theme-toggle:hover { background: var(--accent-soft); border-color: var(--border-hover); }
   .theme-toggle svg { transition: transform 0.4s; }
   .theme-toggle:hover svg { transform: rotate(20deg); }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; background: var(--bg); }
   body {
-    background: var(--bg);
-    color: var(--text);
+    background: var(--bg) !important;
+    color: var(--text) !important;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 400;
     line-height: 1.8;
@@ -210,6 +222,16 @@
     background: rgba(255,255,255,0.92);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
+  }
+  [data-theme="dark"] nav {
+    background: rgba(13,17,23,0.94) !important;
+    border-bottom-color: rgba(255,255,255,0.08) !important;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) nav {
+      background: rgba(13,17,23,0.94) !important;
+      border-bottom-color: rgba(255,255,255,0.08) !important;
+    }
   }
   .nav-logo {
     font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 500;
@@ -274,10 +296,24 @@
   }
   section { padding: 120px 5vw; }
   .hero {
-    min-height: 100vh; display: flex; flex-direction: column;
-    justify-content: center; padding-top: 130px; padding-bottom: 100px;
-    position: relative; overflow: hidden;
+    min-height: 100vh;
+    display: flex; flex-direction: row; align-items: center;
+    justify-content: center;
+    padding: 130px 5vw 100px !important;
+    position: relative; overflow: hidden; gap: 60px;
+    background: var(--bg) !important;
+    color: var(--text) !important;
   }
+  .hero-content { flex: 1; min-width: 0; max-width: 560px; }
+  .hero-solar {
+    flex: 0 0 auto; width: 480px; height: 340px;
+    position: relative; display: flex;
+    align-items: center; justify-content: center;
+  }
+
+  /* ── BLIMP ───────────────────────────────── */
+  #blimpCanvas { display: block; width: 100%; height: 100%; }
+
   .hero::before {
     content: ''; position: absolute; top: -80px; right: -120px;
     width: 680px; height: 680px;
@@ -443,51 +479,144 @@
   .delay-5 { animation-delay: 0.58s; }
   .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1); }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE — tablet & mobile
+  ═══════════════════════════════════════════════ */
+
+  /* ── Tablet: ≤ 900px ── */
+  @media (max-width: 900px) {
+    .hero {
+      flex-direction: column !important;
+      align-items: center !important;
+      padding: 100px 5vw 60px !important;
+      gap: 0 !important;
+      min-height: auto !important;
+    }
+    .hero-content {
+      max-width: 100% !important;
+      text-align: center;
+      order: 2;
+    }
+    .hero-solar {
+      width: 100% !important;
+      max-width: 480px !important;
+      height: 240px !important;
+      order: 1;
+      margin-bottom: 12px;
+    }
+    .hero-actions { justify-content: center; }
+    h1 { font-size: clamp(32px, 7vw, 56px); }
+    .hero-sub { max-width: 100%; font-size: 16px; }
+  }
+
+  /* ── Mobile: ≤ 768px ── */
   @media (max-width: 768px) {
-    section { padding: 64px 5vw; }
-    .cards-grid, .results-grid { grid-template-columns: 1fr; }
-    nav { padding: 0 20px; height: 58px; }
+    /* Nav */
+    nav { padding: 0 18px; height: 58px; }
+
+    /* Sections */
+    section { padding: 56px 20px; }
+
+    /* Hero blimp smaller */
+    .hero-solar { height: 200px; max-width: 380px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn-primary,
+    .hero-actions .btn-secondary { justify-content: center; width: 100%; }
+
+    /* Stats bar */
     .stats-bar { flex-wrap: wrap; }
     .stat { min-width: 50%; }
-    .hero-actions { flex-direction: column; align-items: stretch; }
-    .hero-actions .btn-primary, .hero-actions .btn-secondary { justify-content: center; }
-    .contact-section { grid-template-columns: 1fr !important; gap: 40px; }
-    h1 { font-size: clamp(32px, 9vw, 52px); }
-    .plans-wrap { border-radius: 10px; }
-    .stat-num { font-size: 32px; }
-    .hero-sub { font-size: 16px; }
-    .results-grid { grid-template-columns: 1fr; }
+    .stat-num { font-size: 30px; }
+
+    /* Grids → single column */
+    .cards-grid,
+    .results-grid { grid-template-columns: 1fr; gap: 14px; }
+
+    /* Contact */
+    .contact-section { grid-template-columns: 1fr !important; gap: 36px; }
     .contact-left, .contact-right { width: 100%; }
-    .manifesto { padding: 72px 5vw; }
-    .manifesto blockquote { font-size: clamp(20px, 5vw, 28px); }
-    .section-intro { margin-bottom: 40px; }
+
+    /* Manifesto */
+    .manifesto { padding: 64px 20px; }
+    .manifesto blockquote { font-size: clamp(18px, 5vw, 26px); }
+
+    /* Section labels */
+    .section-intro { margin-bottom: 32px; font-size: 15px; }
+
+    /* Bundles */
     .bundle-row { grid-template-columns: 1fr !important; }
+
+    /* Typography */
+    h1 { font-size: clamp(28px, 8vw, 44px); line-height: 1.08; }
+    h2 { font-size: clamp(22px, 6vw, 34px); }
+
+    /* Plans */
+    .plans-wrap { border-radius: 10px; }
   }
+
+  /* ── Small mobile: ≤ 480px ── */
   @media (max-width: 480px) {
-    section { padding: 52px 18px; }
+    /* Nav */
+    nav { height: 54px; padding: 0 16px; }
+
+    /* Hero blimp tiny */
+    .hero-solar { height: 170px !important; max-width: 100% !important; }
+    .hero { padding: 78px 16px 40px !important; }
+
+    /* Sections tighter */
+    section { padding: 44px 16px; }
+
+    /* Stats vertical */
     .stats-bar { flex-direction: column; }
-    .stat { min-width: 100%; border-right: none !important; border-bottom: 1px solid var(--border); }
+    .stat {
+      min-width: 100%;
+      border-right: none !important;
+      border-bottom: 1px solid var(--border);
+      padding: 24px 20px;
+    }
     .stat:last-child { border-bottom: none; }
-    .hero-actions .btn-primary, .hero-actions .btn-secondary { width: 100%; justify-content: center; font-size: 15px; padding: 14px 20px; }
-    .plan-impl { font-size: 24px; }
-    nav { height: 56px; }
-    .prod-cards { grid-template-columns: 1fr; }
-    .prod-card { padding: 22px 18px; }
-    .prod-price-impl { font-size: 22px; }
-    h1 { font-size: 28px; line-height: 1.1; }
-    h2 { font-size: 22px; }
-    .section-intro { font-size: 15px; }
-    .hero-note { flex-direction: column; gap: 8px; }
-    #af-chat-window { width: calc(100vw - 24px); right: 12px; bottom: 80px; max-height: 75vh; }
-    #af-chat-btn { right: 12px; bottom: 12px; }
-    .bundle-price-impl { font-size: 22px; }
-    .bundle { padding: 22px 18px; }
-    .srv { padding: 22px 18px; }
+    .stat-num { font-size: 28px; }
+
+    /* Buttons full width */
+    .hero-actions .btn-primary,
+    .hero-actions .btn-secondary {
+      width: 100%; justify-content: center;
+      font-size: 15px; padding: 14px 20px;
+    }
+
+    /* Services grid */
+    .srv { padding: 20px 16px; }
     .srv-price-impl { font-size: 20px; }
-    .contact-section { padding: 0; }
+    .srv-addon { flex-direction: column; align-items: flex-start; }
+    .bundle { padding: 20px 16px; }
+    .bundle-price-impl { font-size: 22px; }
+
+    /* Typography */
+    h1 { font-size: 26px; line-height: 1.1; }
+    h2 { font-size: 20px; }
+    .section-intro { font-size: 14px; }
+
+    /* Team / about cards */
+    .prod-cards { grid-template-columns: 1fr; }
+    .prod-card { padding: 20px 16px; }
+    .prod-price-impl { font-size: 22px; }
+
+    /* Form choices */
     #productChoices { gap: 6px; }
-    .choice-btn { font-size: 12px; padding: 7px 11px; }
-    footer { flex-direction: column; align-items: flex-start; gap: 16px; padding: 28px 20px; }
+    .choice-btn { font-size: 12px; padding: 7px 10px; }
+
+    /* Contact form */
+    .contact-section { padding: 0; }
+
+    /* Chat widget */
+    #af-chat-window { width: calc(100vw - 20px); right: 10px; bottom: 76px; max-height: 72vh; }
+    #af-chat-btn { right: 12px; bottom: 12px; }
+
+    /* Footer */
+    footer { flex-direction: column; align-items: flex-start; gap: 12px; padding: 24px 16px; }
+
+    /* Tooltip */
+    .impl-tooltip::after { left: 0; transform: none; white-space: normal; max-width: 180px; }
   }
   /* Dark mode select */
   [data-theme="dark"] select { background: var(--bg3); color: var(--text); border-color: var(--border); }
@@ -508,6 +637,15 @@
   .impl-tooltip:hover::after { opacity:1; }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>
+  // Apply saved theme immediately — runs before ANY rendering (prevents FOUC)
+  (function(){
+    var t = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var dark = t ? t === 'dark' : prefersDark;
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  })();
+</script>
 </head>
 <body>
 
@@ -539,20 +677,438 @@
 </div>
 
 <section class="hero">
-  <h1 class="fade-up delay-1">Méně rutiny.<br><em>Více zakázek.</em></h1>
-
-  <p class="hero-sub fade-up delay-3">Představte si, že vám z pracovního dne zmizí ta nejnudnější část. V Audeflow uvolňujeme firmám ruce. Automatizujeme vyřizování poptávek, přepisování faktur i zákaznickou podporu. Získejte zpět hodiny času, které můžete věnovat svým klientům.</p>
-  <div class="hero-actions fade-up delay-4" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-    <a href="#kontakt" class="btn-primary">
-      Chci ušetřit čas
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-    </a>
-    <a href="#sluzby" class="btn-secondary">
-      S čím vám pomůžeme
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-    </a>
+  <div class="hero-content">
+    <h1 class="fade-up delay-1">Méně rutiny.<br><em>Více zakázek.</em></h1>
+    <p class="hero-sub fade-up delay-3">Představte si, že vám z pracovního dne zmizí ta nejnudnější část. V Audeflow uvolňujeme firmám ruce. Automatizujeme vyřizování poptávek, přepisování faktur i zákaznickou podporu. Získejte zpět hodiny času, které můžete věnovat svým klientům.</p>
+    <div class="hero-actions fade-up delay-4" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <a href="#kontakt" class="btn-primary">
+        Chci ušetřit čas
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+      <a href="#sluzby" class="btn-secondary">
+        S čím vám pomůžeme
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="hero-solar">
+    <canvas id="blimpCanvas"></canvas>
   </div>
 </section>
+
+<script>
+(function () {
+  const canvas = document.getElementById('blimpCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // ── resize (transparent bg, no background fill) ───────────────────────
+  function resize() {
+    const wrap = canvas.parentElement;
+    const dpr = window.devicePixelRatio || 1;
+    const w = wrap.offsetWidth  || 520;
+    const h = wrap.offsetHeight || 360;
+    canvas.width  = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width  = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', resize);
+  } else { resize(); }
+  window.addEventListener('resize', resize);
+
+  // ── Audeflow blue palette ─────────────────────────────────────────────
+  //  light = #60a5fa (top highlight), base = #2563eb, dark = #1e3a8a (shadow)
+
+  // ── pixel-map builder ─────────────────────────────────────────────────
+  // ── Messages & dot-matrix pixel maps ──────────────────────────────────
+  // Hardcoded 5×7 bitmap font — no canvas text, works everywhere instantly
+  const FONT5X7 = {
+    ' ': [0,0,0,0,0,0,0],
+    'A': [14,17,17,31,17,17,17],
+    'B': [30,17,17,30,17,17,30],
+    'C': [14,17,16,16,16,17,14],
+    'D': [28,18,17,17,17,18,28],
+    'E': [31,16,16,30,16,16,31],
+    'F': [31,16,16,30,16,16,16],
+    'G': [14,17,16,23,17,17,14],
+    'H': [17,17,17,31,17,17,17],
+    'I': [31,4,4,4,4,4,31],
+    'J': [15,2,2,2,18,18,12],
+    'K': [17,18,20,24,20,18,17],
+    'L': [16,16,16,16,16,16,31],
+    'M': [17,27,21,17,17,17,17],
+    'N': [17,25,21,19,17,17,17],
+    'O': [14,17,17,17,17,17,14],
+    'P': [30,17,17,30,16,16,16],
+    'Q': [14,17,17,17,21,18,13],
+    'R': [30,17,17,30,20,18,17],
+    'S': [15,16,16,14,1,1,30],
+    'T': [31,4,4,4,4,4,4],
+    'U': [17,17,17,17,17,17,14],
+    'V': [17,17,17,17,17,10,4],
+    'W': [17,17,17,21,21,27,17],
+    'X': [17,10,4,4,4,10,17],
+    'Y': [17,17,10,4,4,4,4],
+    'Z': [31,1,2,4,8,16,31],
+    '0': [14,17,19,21,25,17,14],
+    '1': [4,12,4,4,4,4,31],
+    '2': [14,17,1,6,8,16,31],
+    '3': [31,1,2,6,1,17,14],
+    '4': [2,6,10,18,31,2,2],
+    '5': [31,16,30,1,1,17,14],
+    '6': [14,16,16,30,17,17,14],
+    '7': [31,1,2,4,8,8,8],
+    '8': [14,17,17,14,17,17,14],
+    '9': [14,17,17,15,1,1,14],
+    '.': [0,0,0,0,0,4,4],
+    '-': [0,0,0,31,0,0,0],
+    '!': [4,4,4,4,4,0,4],
+  };
+
+  const MESSAGES = ['AUDEFLOW', 'MENE RUTINY.', 'VICE ZAKAZEK.'];
+  // Each character glyph is 5 cols wide + 1 col gap = 6 cols per char
+  // We render the string into a flat boolean array: CHAR_ROWS=7 rows
+  const CHAR_W = 5, CHAR_GAP = 1, CHAR_H = 7;
+
+  function buildMap(text) {
+    const chars = text.toUpperCase().split('').map(c => FONT5X7[c] || FONT5X7[' ']);
+    const totalCols = chars.length * (CHAR_W + CHAR_GAP) - CHAR_GAP;
+    // map[row][col] = boolean
+    const grid = [];
+    for (let row = 0; row < CHAR_H; row++) {
+      const rowArr = [];
+      for (let ci = 0; ci < chars.length; ci++) {
+        const glyph = chars[ci];
+        for (let bit = CHAR_W - 1; bit >= 0; bit--) {
+          rowArr.push(!!(glyph[row] & (1 << bit)));
+        }
+        if (ci < chars.length - 1) {
+          for (let g = 0; g < CHAR_GAP; g++) rowArr.push(false);
+        }
+      }
+      grid.push(rowArr);
+    }
+    return { grid, totalCols, rows: CHAR_H };
+  }
+
+  const pixelMaps = MESSAGES.map(buildMap);
+
+  // ── animation state ───────────────────────────────────────────────────
+  // Phases per message:
+  //  'hold'   — static, fully visible
+  //  'blink'  — blinks on/off N times
+  //  'slide'  — slides in from left (msg 1 and 2)
+  //  'out'    — fade/blink out before next message
+  let msgIdx  = 0;
+  let phase   = 'hold';   // hold | blink | slide | out
+  let phaseT  = 0;        // ms elapsed in current phase
+  let blinkN  = 0;        // blink counter
+  let slideOff = 0;       // pixel-column scroll offset (for slide-in)
+
+  // Timing constants (ms)
+  const T_HOLD_0  = 1800;  // AUDEFLOW static hold before blink
+  const T_BLINK   = 220;   // each blink half-cycle
+  const N_BLINKS  = 4;     // number of blink on-off cycles
+  const T_SLIDE   = 900;   // slide-in duration
+  const T_HOLD    = 1600;  // hold after slide-in / after blink
+  const T_OUT     = 320;   // quick fade out
+
+  let blimpAlpha = 1;      // alpha of current message (0..1)
+  let blinkOn    = true;   // during blink phase, is bulb lit?
+
+  let bobT = 0, lastTS = 0;
+
+  // ── main draw ─────────────────────────────────────────────────────────
+  function draw(ts) {
+    const dt = Math.min(ts - lastTS, 50); lastTS = ts;
+    bobT += dt * 0.0007;
+
+    // ── message animation state machine ────────────────────────────────
+    phaseT += dt;
+    // msg 0 = AUDEFLOW:     hold → blink → out → next
+    // msg 1 = MENE RUTINY.: slide → hold → blink → out → next
+    // msg 2 = VICE ZAKAZEK.: slide → hold → blink → out → next
+
+    if (phase === 'hold') {
+      blimpAlpha = 1; blinkOn = true;
+      const holdDur = msgIdx === 0 ? T_HOLD_0 : T_HOLD;
+      if (phaseT > holdDur) { phase = 'blink'; phaseT = 0; blinkN = 0; blinkOn = false; }
+    }
+    else if (phase === 'blink') {
+      // alternate on/off every T_BLINK ms
+      blinkOn = (Math.floor(phaseT / T_BLINK) % 2 === 0);
+      blimpAlpha = blinkOn ? 1 : 0.08;
+      if (phaseT > T_BLINK * N_BLINKS * 2) {
+        // done blinking — fade out quickly then advance
+        blimpAlpha = 0;
+        msgIdx = (msgIdx + 1) % MESSAGES.length;
+        phase  = msgIdx === 0 ? 'hold' : 'slide';
+        phaseT = 0; blinkOn = true; blimpAlpha = 1;
+        // for slide: start offscreen to the left
+        if (phase === 'slide') {
+          slideOff = pixelMaps[msgIdx].totalCols + 4;
+        }
+      }
+    }
+    else if (phase === 'slide') {
+      // slide offset goes from totalCols → 0
+      const pm2 = pixelMaps[msgIdx];
+      slideOff = Math.max(0, (pm2.totalCols + 4) * (1 - phaseT / T_SLIDE));
+      blimpAlpha = 1;
+      if (phaseT > T_SLIDE) { slideOff = 0; phase = 'hold'; phaseT = 0; }
+    }
+
+    const W = canvas.offsetWidth, H = canvas.offsetHeight;
+    if (!W || !H) { requestAnimationFrame(draw); return; }
+
+    ctx.clearRect(0, 0, W, H);
+    // NO background fill — transparent so page bg shows through
+
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+    // ── Blimp geometry ────────────────────────────────────────────────
+    // Scarface-style: fuselage axis runs left-right, slightly tilted nose-up
+    // viewed from a slight below-left angle just like the film still.
+    //
+    // Dimensions (in "canvas units"):
+    const bobY  = Math.sin(bobT) * H * 0.022;
+    const bobRot = Math.sin(bobT * 0.72) * 0.014; // gentle pitch rock
+
+    // Centre of blimp
+    const cx = W * 0.50;
+    const cy = H * 0.44 + bobY;
+
+    // Half-axes of the main ellipsoid silhouette (on screen)
+    // Wide and relatively tall — like the Scarface blimp silhouette
+    const RX = W  * 0.415;
+    const RY = RX * 0.295;  // aspect ratio ≈ Scarface blimp
+
+    // Tilt: nose slightly up (matches photo angle)
+    const tilt = -0.13 + bobRot;
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(tilt);
+
+    // ── Drop shadow (only visible on the page background) ────────────
+    // subtle ellipse below
+    ctx.save();
+    ctx.scale(1, 0.18);
+    const shG = ctx.createRadialGradient(0, RY * 6.2, 0, 0, RY * 6.2, RX * 0.82);
+    shG.addColorStop(0, dark ? 'rgba(37,99,235,0.18)' : 'rgba(37,99,235,0.10)');
+    shG.addColorStop(1, 'transparent');
+    ctx.fillStyle = shG;
+    ctx.beginPath(); ctx.arc(0, RY * 6.2, RX * 0.82, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+
+    // ── Helper: hull silhouette path ──────────────────────────────────
+    function hullClip() {
+      ctx.beginPath();
+      ctx.ellipse(0, 0, RX, RY, 0, 0, Math.PI * 2);
+    }
+
+    // ── BODY — 3-D shading via 4-stop vertical gradient ───────────────
+    // Light source: upper-left (like the Scarface film still)
+    const bodyG = ctx.createLinearGradient(0, -RY, 0, RY);
+    bodyG.addColorStop(0.00, '#93c5fd');   // bright sky-lit top
+    bodyG.addColorStop(0.22, '#3b82f6');   // upper body
+    bodyG.addColorStop(0.55, '#2563eb');   // main Audeflow blue
+    bodyG.addColorStop(0.82, '#1e40af');   // lower shaded
+    bodyG.addColorStop(1.00, '#1e3a8a');   // deep underside
+
+    hullClip();
+    ctx.fillStyle = bodyG; ctx.fill();
+
+    // ── 3-D barrel ribs — ellipses that shrink toward nose & tail ────
+    // These give the "I can see it's round" illusion without being too busy
+    ctx.save();
+    hullClip(); ctx.clip();
+    const ribPositions = [-0.72, -0.44, -0.12, 0.22, 0.52, 0.74];
+    ribPositions.forEach(t => {
+      // cross-section radius shrinks as sqrt(1-t²)
+      const rFrac = Math.sqrt(Math.max(0, 1 - t * t));
+      const ribRY  = RY * rFrac;
+      // perspective squish: ribs further away (positive t = tail) get narrower X
+      const ribRX  = ribRY * 0.18;
+      const ribX   = t * RX * 0.97;
+      ctx.beginPath();
+      ctx.ellipse(ribX, 0, ribRX, ribRY, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = dark ? 'rgba(147,197,253,0.18)' : 'rgba(30,64,175,0.22)';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+    });
+    ctx.restore();
+
+    // ── Top specular highlight strip ──────────────────────────────────
+    ctx.save();
+    hullClip(); ctx.clip();
+    const specG = ctx.createRadialGradient(-RX * 0.1, -RY * 0.58, 0,
+                                            -RX * 0.1, -RY * 0.58, RX * 0.55);
+    specG.addColorStop(0, 'rgba(255,255,255,0.42)');
+    specG.addColorStop(0.5, 'rgba(255,255,255,0.10)');
+    specG.addColorStop(1,   'rgba(255,255,255,0)');
+    ctx.fillStyle = specG;
+    hullClip(); ctx.fill();
+
+    // ── Equator seam stripe ───────────────────────────────────────────
+    ctx.beginPath();
+    ctx.ellipse(0, 0, RX * 0.98, RY * 0.07, 0, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(30,58,138,0.45)';
+    ctx.fill();
+    ctx.restore();
+
+    // ── TAIL SECTION — bulkier fins like Scarface ─────────────────────
+    // The Scarface blimp has large crossed fins at the tail end.
+    // We draw 4 fins (top, bottom, left, right) as projected quads.
+    function drawFin(points, topLit) {
+      ctx.beginPath();
+      ctx.moveTo(points[0][0] * RX, points[0][1] * RY);
+      points.slice(1).forEach(p => ctx.lineTo(p[0] * RX, p[1] * RY));
+      ctx.closePath();
+      const fg = ctx.createLinearGradient(0, -RY, 0, RY * 0.5);
+      fg.addColorStop(0, topLit ? '#3b82f6' : '#1e40af');
+      fg.addColorStop(1, '#1e3a8a');
+      ctx.fillStyle = fg; ctx.fill();
+      ctx.strokeStyle = dark ? 'rgba(147,197,253,0.30)' : 'rgba(30,64,175,0.35)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+    // top fin
+    drawFin([[0.72, -0.18], [0.98, -1.08], [0.90, -0.14]], true);
+    // bottom fin
+    drawFin([[0.72,  0.18], [0.98,  0.90], [0.90,  0.14]], false);
+    // left fin (wide side, biggest visual) — slight perspective squish
+    drawFin([[0.70,  0.04], [0.99,  0.22], [0.87,  0.04], [0.70, -0.04]], false);
+    // right fin hint (further away, smaller)
+    drawFin([[0.73,  0.0], [0.96,  0.14], [0.87,  0.0]], false);
+
+    // ── Nose cone ─────────────────────────────────────────────────────
+    ctx.save();
+    hullClip(); ctx.clip();
+    const noseG = ctx.createRadialGradient(-RX * 0.82, -RY * 0.1, 0,
+                                            -RX * 0.82, -RY * 0.1, RY * 0.55);
+    noseG.addColorStop(0, '#bfdbfe');
+    noseG.addColorStop(1, 'rgba(37,99,235,0)');
+    ctx.fillStyle = noseG; hullClip(); ctx.fill();
+    ctx.restore();
+
+    // ── GONDOLA ───────────────────────────────────────────────────────
+    // Scarface gondola is wide with many windows, hung below nose-area
+    const gCX = -RX * 0.05;
+    const gCY = RY  * 1.08;
+    const gW  = RX  * 0.44;
+    const gH  = RY  * 0.32;
+
+    // Suspension cables
+    ctx.strokeStyle = dark ? 'rgba(147,197,253,0.35)' : 'rgba(30,64,175,0.40)';
+    ctx.lineWidth = 1;
+    [[-0.38, -0.10], [-0.12, -0.05], [0.12, -0.05], [0.38, -0.10]].forEach(([sx, tx]) => {
+      ctx.beginPath();
+      ctx.moveTo(gCX + sx * gW, RY * 0.92);
+      ctx.lineTo(gCX + tx * gW, gCY - gH * 0.5);
+      ctx.stroke();
+    });
+
+    // Gondola body — perspective: left side lit, right side darker
+    const gondG = ctx.createLinearGradient(gCX - gW*0.5, gCY - gH*0.5,
+                                            gCX + gW*0.5, gCY + gH*0.5);
+    gondG.addColorStop(0, '#60a5fa');
+    gondG.addColorStop(0.4, '#2563eb');
+    gondG.addColorStop(1, '#1e3a8a');
+    ctx.beginPath();
+    ctx.roundRect(gCX - gW*0.5, gCY - gH*0.5, gW, gH, gH * 0.32);
+    ctx.fillStyle = gondG; ctx.fill();
+    ctx.strokeStyle = dark ? 'rgba(147,197,253,0.40)' : 'rgba(30,64,175,0.45)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Gondola windows — evenly spaced, rounded
+    const nWin = 6;
+    for (let i = 0; i < nWin; i++) {
+      const wx = gCX - gW * 0.38 + (i / (nWin - 1)) * gW * 0.76;
+      const wy = gCY - gH * 0.06;
+      const wR = gH * 0.20;
+      const wG = ctx.createRadialGradient(wx - wR*0.3, wy - wR*0.3, 0, wx, wy, wR);
+      wG.addColorStop(0, 'rgba(219,234,254,0.95)');
+      wG.addColorStop(0.6, 'rgba(96,165,250,0.7)');
+      wG.addColorStop(1, 'rgba(30,58,138,0.4)');
+      ctx.beginPath(); ctx.arc(wx, wy, wR, 0, Math.PI * 2);
+      ctx.fillStyle = wG; ctx.fill();
+    }
+
+    // ── SIGN PANEL — fixed size, sized for longest message ─────────────
+    // Panel is always the same size regardless of current message
+    // Sized for the longest message: VICE ZAKAZEK. = 13 chars = 77 dot-cols
+    const MAX_COLS  = pixelMaps.reduce((m, p) => Math.max(m, p.totalCols), 0);
+    const GROW      = 7;  // glyph rows
+    const dotSize   = Math.min(
+      (RX * 1.14) / (MAX_COLS + 6),   // fit horizontally
+      (RY * 0.78) / (GROW + 2)        // fit vertically
+    );
+    const panPadX = dotSize * 2.0;
+    const panPadY = dotSize * 1.4;
+    const panW    = MAX_COLS * dotSize + panPadX * 2;
+    const panH    = GROW    * dotSize + panPadY * 2;
+    const pX0     = -panW * 0.50;
+    const pY0     = -panH * 0.50;
+    const dR      = dotSize * 0.36;
+
+    // Clip to hull ellipse
+    ctx.save();
+    ctx.beginPath();
+    ctx.ellipse(0, 0, RX - 1, RY - 1, 0, 0, Math.PI * 2);
+    ctx.clip();
+
+    // Panel background — always same rectangle
+    ctx.beginPath(); ctx.roundRect(pX0, pY0, panW, panH, panH * 0.14);
+    ctx.fillStyle = 'rgba(3,10,45,0.90)'; ctx.fill();
+    ctx.beginPath(); ctx.roundRect(pX0, pY0, panW, panH, panH * 0.14);
+    ctx.strokeStyle = 'rgba(96,165,250,0.65)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+    // Current message grid
+    const pm = pixelMaps[msgIdx];
+    // Center the message horizontally in the panel (after slide offset)
+    const msgStartCol = Math.round((MAX_COLS - pm.totalCols) / 2) - Math.round(slideOff);
+
+    // Draw all dot positions
+    for (let ri = 0; ri < GROW; ri++) {
+      for (let ci = 0; ci < MAX_COLS; ci++) {
+        const dx = pX0 + panPadX + (ci + 0.5) * dotSize;
+        const dy = pY0 + panPadY + (ri + 0.5) * dotSize;
+        // Map grid column to message column
+        const msgCol = ci - msgStartCol;
+        const on = (blinkOn &&
+                    msgCol >= 0 && msgCol < pm.totalCols &&
+                    pm.grid[ri] && pm.grid[ri][msgCol]);
+
+        if (on) {
+          const gG = ctx.createRadialGradient(dx, dy, 0, dx, dy, dR * 4);
+          gG.addColorStop(0, 'rgba(255,250,100,' + (0.78 * blimpAlpha) + ')');
+          gG.addColorStop(1, 'transparent');
+          ctx.beginPath(); ctx.arc(dx, dy, dR * 4, 0, Math.PI * 2);
+          ctx.fillStyle = gG; ctx.fill();
+          ctx.beginPath(); ctx.arc(dx, dy, dR, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255,238,50,' + blimpAlpha + ')'; ctx.fill();
+          ctx.beginPath(); ctx.arc(dx, dy, dR * 0.45, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255,255,200,' + blimpAlpha + ')'; ctx.fill();
+        } else {
+          ctx.beginPath(); ctx.arc(dx, dy, dR * 0.52, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(15,35,90,0.60)'; ctx.fill();
+        }
+      }
+    }
+    ctx.restore(); // end hull clip
+
+    ctx.restore(); // end translate/rotate
+
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(ts => { lastTS = ts; requestAnimationFrame(draw); });
+})();
+</script>
 
 <div class="stats-bar">
   <div class="stat reveal">
