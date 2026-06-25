@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatické zpracování faktur | AI zaúčtování do iDokladu a Fakturoidu — AUDE FLOW</title>
+<meta name="keywords" content="automatické zpracování faktur, AI zaúčtování faktur, iDoklad automatizace, Fakturoid integrace, PDF faktura zpracování, automatizace účetnictví, České Budějovice, Jihočeský kraj">
+<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="language" content="cs">
+<meta name="author" content="AUDE FLOW">
+<meta name="geo.region" content="CZ-JC">
+<meta name="geo.placename" content="České Budějovice">
+<meta name="geo.position" content="48.9745;14.4747">
+<meta name="ICBM" content="48.9745, 14.4747">
+<meta name="description" content="Nahrajte PDF fakturu, AI ji přečte, navrhne účetní kód a odešle přímo do iDokladu nebo Fakturoidu. Zkusit zdarma — žádná kreditní karta.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://audeflow.cz/lp-faktury.html">
+<meta property="og:title" content="Automatické zpracování faktur — AI zaúčtování | AUDE FLOW">
+<meta property="og:description" content="Nahrajte PDF, AI přečte fakturu a odešle ji do iDokladu nebo Fakturoidu. Bez ruční práce. Zkuste zdarma.">
+<meta property="og:locale" content="cs_CZ">
+<meta property="og:site_name" content="AUDE FLOW">
+<meta property="og:image" content="https://audeflow.cz/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AUDE FLOW — Automatické zpracování faktur">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Automatické zpracování faktur — AI zaúčtování | AUDE FLOW">
+<meta name="twitter:description" content="Nahrajte PDF, AI přečte fakturu a odešle ji do iDokladu nebo Fakturoidu. Zkuste zdarma.">
+<meta name="twitter:image" content="https://audeflow.cz/og-image.png">
+<link rel="canonical" href="https://audeflow.cz/lp-faktury.html">
+<link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAMAEBAAAAEAIAABAQAANgAAACAgAAABACAAKwIAADcBAAAwMAAAAQAgABUDAABiAwAAiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAyElEQVR4nGNkwAJUk1//xyZ+e64oI7oYE7Gacckx4pPEB2CuwXABqYCJHNuR9TCSoxnDBeigMoyb4fJ0YQYdeRaGZHdOhltzRBhuzRFhaIrlIWwAGwsjg70eG0P1wi8M4fYcKHIv3v/DMIAFXcDLlI1BSYKZoSeFl+Hbz/8MM7d9Z9h59idD7vTPxHkhwp6DIW3SJwa1lDcMBy79YtCWx7ADBVAeiNiSJ7Hg9lxRRiYYgxzNDAxUSIkYNhMKE3TXYrgAn3ewyQEAjadDuRETQ6oAAAAASUVORK5CYII=">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#2563eb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="AUDE FLOW">
+<meta name="msapplication-TileColor" content="#2563eb">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#ffffff;--bg2:#f4f6fb;--bg3:#eaedfa;--border:rgba(0,0,0,0.07);--text:#0a0f1e;--muted:rgba(10,15,30,0.62);--dim:rgba(10,15,30,0.38);}
+[data-theme=dark]{--bg:#0a0e1a;--bg2:#111827;--bg3:#1a2236;--border:rgba(255,255,255,0.07);--text:#e8eef8;--muted:rgba(232,238,248,0.65);--dim:rgba(232,238,248,0.38);}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:62px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.9);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+[data-theme=dark] nav{background:rgba(10,14,26,0.92);}
+.logo{font-size:18px;font-weight:700;color:var(--text);text-decoration:none;}
+.nav-r{display:flex;align-items:center;gap:8px;}
+.tt{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.tt:hover{background:var(--acc-soft);}
+.btn-p{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#fff;background:var(--acc);padding:11px 24px;border-radius:9px;text-decoration:none;transition:all 0.2s;box-shadow:0 4px 18px var(--acc-shadow);}
+.btn-p:hover{filter:brightness(1.1);transform:translateY(-2px);}
+.btn-back{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;padding:9px 18px;border-radius:9px;border:1px solid var(--border);transition:all 0.2s;background:var(--bg2);}
+.btn-back:hover{color:var(--acc);border-color:var(--acc);background:var(--acc-soft);}
+.btn-g{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;padding:11px 22px;border-radius:9px;border:1px solid var(--border);transition:all 0.2s;}
+.btn-g:hover{color:var(--acc);border-color:var(--acc);background:var(--acc-soft);}
+.hero{min-height:92vh;padding:110px 5vw 80px;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:600px;height:600px;background:radial-gradient(circle,var(--glow) 0%,transparent 65%);pointer-events:none;}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--acc);background:var(--acc-soft);border:1px solid var(--acc-border);padding:5px 13px;border-radius:100px;margin-bottom:22px;}
+.badge::before{content:'';width:5px;height:5px;background:var(--acc);border-radius:50%;}
+h1{font-size:clamp(30px,5vw,62px);font-weight:800;line-height:1.03;letter-spacing:-0.03em;margin-bottom:18px;}
+h1 em{font-style:normal;color:var(--acc);}
+.sub{font-size:17px;color:var(--muted);line-height:1.85;max-width:520px;margin-bottom:32px;}
+.btns{display:flex;gap:10px;flex-wrap:wrap;}
+.pbox{border-radius:16px;padding:26px;border:1px solid;}
+.pb-num{font-size:36px;font-weight:800;letter-spacing:-0.03em;font-family:'DM Mono',monospace;line-height:1;margin-bottom:3px;}
+.pb-label{font-size:11px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;}
+.pb-div{height:1px;margin-bottom:12px;}
+.pb-m{font-size:17px;font-weight:600;margin-bottom:2px;}
+.pb-ml{font-size:13px;font-family:'DM Mono',monospace;}
+.pb-list{list-style:none;margin-top:16px;}
+.pb-list li{display:flex;align-items:flex-start;gap:8px;font-size:15px;padding:7px 0;border-bottom:1px solid;}
+.pb-list li:last-child{border-bottom:none;}
+.free-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#10b981;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:3px 10px;border-radius:100px;margin-left:8px;}
+section{padding:88px 5vw;}
+.lbl{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--acc);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.lbl::before{content:'';width:14px;height:2px;background:var(--acc);border-radius:2px;}
+h2{font-size:clamp(22px,3vw,38px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;margin-bottom:14px;}
+h3{font-size:16px;font-weight:600;margin-bottom:7px;}
+.flow{display:flex;flex-direction:column;gap:0;max-width:720px;}
+.flow-step{display:grid;grid-template-columns:56px 1fr;gap:20px;position:relative;}
+.flow-line{display:flex;flex-direction:column;align-items:center;}
+.flow-circle{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;flex-shrink:0;font-family:'DM Mono',monospace;background:var(--acc);}
+.flow-connector{width:2px;flex:1;min-height:32px;background:var(--border);margin:4px 0;}
+.flow-body{padding:0 0 32px 0;}
+.flow-body h3{font-size:18px;font-weight:700;margin-bottom:6px;padding-top:10px;}
+.flow-body p{font-size:16px;color:var(--muted);line-height:1.85;}
+.flow-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--acc);background:var(--acc-soft);padding:3px 10px;border-radius:100px;margin-bottom:8px;}
+.sales-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:28px;}
+.sale-card{background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:24px;transition:border-color 0.2s,transform 0.2s;}
+.sale-card:hover{border-color:var(--acc);transform:translateY(-2px);}
+.sale-ico{width:40px;height:40px;border-radius:10px;background:var(--acc-soft);display:flex;align-items:center;justify-content:center;color:var(--acc);margin-bottom:14px;}
+.sale-card p{font-size:16px;color:var(--muted);line-height:1.85;margin-top:5px;}
+.roi-bar{background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:28px 32px;display:flex;align-items:center;gap:40px;flex-wrap:wrap;margin-top:28px;}
+.roi-stat{text-align:center;}
+.roi-val{font-size:32px;font-weight:800;letter-spacing:-0.03em;font-family:'DM Mono',monospace;color:var(--acc);line-height:1;}
+.roi-lbl{font-size:14px;color:var(--muted);margin-top:4px;}
+.roi-div{width:1px;height:48px;background:var(--border);}
+.cta-sec{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:64px 5vw;text-align:center;position:relative;overflow:hidden;}
+[data-theme=dark] .cta-sec{background:#111827;border:1px solid rgba(255,255,255,0.07);}
+[data-theme=dark] .cta-sec h2{color:#fff;}
+[data-theme=dark] .cta-sec p{color:rgba(255,255,255,0.55);}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:250px;background:radial-gradient(ellipse,var(--glow) 0%,transparent 70%);pointer-events:none;}
+.cta-sec h2{color:var(--text);margin-bottom:10px;position:relative;}
+.cta-sec p{color:var(--muted);font-size:15px;margin-bottom:28px;position:relative;}
+.cta-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;}
+footer{padding:28px 5vw;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:var(--bg2);}
+.fl{font-size:15px;font-weight:700;color:var(--muted);text-decoration:none;}
+.fl span{color:var(--acc);}
+.fc{font-size:12px;color:var(--dim);}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1),transform 0.6s cubic-bezier(0.22,1,0.36,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.fu{opacity:0;animation:fa 0.7s cubic-bezier(0.22,1,0.36,1) forwards;}
+.d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.28s}.d4{animation-delay:.42s}
+@keyframes fa{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;padding-top:96px;gap:36px;}
+  .hero::before{width:320px;height:320px;top:-40px;right:-40px;}
+  .sales-grid{grid-template-columns:1fr;}
+  .roi-bar{gap:20px;justify-content:center;padding:22px 20px;}
+  .roi-div{display:none;}
+  .pbox{padding:20px;}
+  h1{font-size:clamp(28px,7vw,52px);}
+  .sub{font-size:16px;}
+}
+@media(max-width:640px){
+  nav{padding:0 18px;height:56px;}
+  .btn-back span{display:none;}
+  section{padding:64px 20px;}
+  .btns{flex-direction:column;gap:10px;}
+  .btns .btn-p,.btns .btn-g{width:100%;justify-content:center;font-size:15px;padding:14px 18px;}
+  .flow-step{grid-template-columns:44px 1fr;gap:14px;}
+  .flow-circle{width:40px;height:40px;font-size:14px;}
+  .flow-body h3{font-size:16px;}
+  .flow-body p{font-size:15px;}
+  .sale-card{padding:20px;}
+  .sale-card p{font-size:15px;}
+  .cta-sec{padding:48px 20px;border-radius:14px;}
+  footer{flex-direction:column;align-items:flex-start;gap:12px;padding:24px 20px;}
+}
+@media(max-width:480px){
+  nav{height:54px;}
+  .btn-back{padding:8px 12px;font-size:12px;}
+  section{padding:52px 16px;}
+  h1{font-size:26px;line-height:1.1;}
+  h2{font-size:21px;}
+  h3{font-size:15px;}
+  .sub{font-size:15px;line-height:1.75;}
+  .pbox{padding:18px;border-radius:12px;}
+  .pb-num{font-size:28px;}
+  .pb-m{font-size:15px;}
+  .pb-list li{font-size:14px;padding:6px 0;}
+  .roi-bar{padding:18px 16px;}
+  .roi-val{font-size:24px;}
+  .roi-lbl{font-size:12px;}
+  .badge{font-size:9px;padding:4px 10px;}
+  .btns .btn-p{font-size:14px;padding:13px 16px;}
+}
+:root{--acc:#2563eb;--acc-soft:rgba(37,99,235,0.08);--acc-border:rgba(37,99,235,0.25);--acc-shadow:rgba(37,99,235,0.28);--glow:rgba(37,99,235,0.18);}
+[data-theme=dark]{--acc:#60a5fa;--acc-soft:#60a5fa18;--acc-border:#60a5fa44;}
+.nav-r{gap:6px;}
+@media(max-width:400px){
+  .btn-back span{display:none;}
+  .btn-back{padding:8px 10px;}
+}
+.nav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:500;letter-spacing:0.02em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px;}
+.nav-logo span{color:var(--acc);}
+.nav-logo-svg .logo-a{fill:var(--text);transition:fill 0.3s;}
+.nav-logo-svg .logo-a-cut{fill:var(--bg);transition:fill 0.3s;}
+.nav-logo-svg .logo-f{fill:#2563eb;transition:fill 0.3s;}
+[data-theme="dark"] .nav-logo-svg .logo-f{fill:#60a5fa;}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .nav-logo-svg .logo-f{fill:#60a5fa;}}
+.nav-logo-img{height:26px;width:auto;display:block;mix-blend-mode:multiply;}
+[data-theme="dark"] .nav-logo-img{mix-blend-mode:normal;filter:brightness(0) invert(1);}
+/* Integrations badges */
+.integrations{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.int-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);background:var(--bg2);border:1px solid var(--border);padding:5px 12px;border-radius:8px;}
+.int-badge::before{content:'✓';color:var(--acc);font-weight:800;font-size:11px;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Automatické zpracování faktur",
+  "description": "SaaS nástroj pro automatické zpracování PDF faktur s AI. Extrakce dat, návrh účetního kódu a přímé odeslání do iDokladu nebo Fakturoidu.",
+  "url": "https://audeflow.cz/lp-faktury.html",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CZK",
+    "description": "Zkušební verze zdarma"
+  },
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "AUDE FLOW",
+    "url": "https://audeflow.cz",
+    "telephone": "+420725196318",
+    "address": {"@type": "PostalAddress", "addressLocality": "České Budějovice", "addressRegion": "Jihočeský kraj", "postalCode": "370 01", "addressCountry": "CZ"}
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Funguje to s iDokladem i Fakturodem?", "acceptedAnswer": {"@type": "Answer", "text": "Ano. Podporujeme iDoklad (OAuth2) i Fakturoid. Po registraci připojíte svůj účet jedním kliknutím."}},
+    {"@type": "Question", "name": "Co když AI přečte fakturu špatně?", "acceptedAnswer": {"@type": "Answer", "text": "Vždy vidíte extrahovaná data před odesláním. Cokoli můžete ručně opravit — aplikace neposílá nic bez vašeho schválení."}},
+    {"@type": "Question", "name": "Je potřeba něco instalovat?", "acceptedAnswer": {"@type": "Answer", "text": "Ne. Funguje v prohlížeči. Nahrajete PDF, zkontrolujete data a schválíte. Žádná instalace."}}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Domů", "item": "https://audeflow.cz/"},
+    {"@type": "ListItem", "position": 2, "name": "Zpracování faktur", "item": "https://audeflow.cz/lp-faktury.html"}
+  ]
+}
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    AUDE <span>FLOW</span>
+  </a>
+  <div class="nav-r">
+    <a href="/#sluzby" class="btn-back"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 4l-4 4 4 4"/></svg> <span>Zpět</span></a>
+    <a href="/register" class="btn-p" style="font-size:13px;padding:8px 16px;">Zkusit zdarma</a>
+    <button class="tt" id="tt"><svg id="ti" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="badge fu d1">Zpracování faktur AI</div>
+    <h1 class="fu d2">PDF faktura do účetnictví.<br><em>Za 30 sekund, ne 30 minut.</em></h1>
+    <p class="sub fu d3">Nahrajte fakturu, AI ji přečte, navrhne účetní kód a odešle přímo do iDokladu nebo Fakturoidu. Vy jen zkontrolujete a schválíte.</p>
+    <div class="btns fu d4">
+      <a href="/register" class="btn-p">Zkusit zdarma <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7h9M9 3l4 4-4 4"/></svg></a>
+      <a href="#jak-funguje" class="btn-g">Jak to funguje</a>
+    </div>
+    <div class="integrations fu d4">
+      <span class="int-badge">iDoklad</span>
+      <span class="int-badge">Fakturoid</span>
+      <span class="int-badge">PDF drag &amp; drop</span>
+      <span class="int-badge">Claude AI</span>
+    </div>
+  </div>
+  <div class="fu d3">
+    <div class="pbox" style="background:var(--bg2);border-color:var(--border);">
+      <div class="pb-num" style="color:var(--text);">Zdarma <span class="free-badge">BETA</span></div>
+      <div class="pb-label" style="color:var(--dim);">žádná kreditní karta</div>
+      <div class="pb-div" style="background:var(--border);"></div>
+      <div class="pb-m" style="color:var(--acc);">Zahrnuto v ceně</div>
+      <div class="pb-ml" style="color:var(--dim);">v beta verzi zdarma</div>
+      <ul class="pb-list">
+        <li style="color:var(--muted);border-color:var(--border);">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>
+          <span>AI extrakce dat z PDF</span>
+        </li>
+        <li style="color:var(--muted);border-color:var(--border);">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>
+          <span>Návrh účetního kódu</span>
+        </li>
+        <li style="color:var(--muted);border-color:var(--border);">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>
+          <span>Napojení na iDoklad / Fakturoid</span>
+        </li>
+        <li style="color:var(--muted);border-color:var(--border);">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>
+          <span>Kontrola před odesláním</span>
+        </li>
+        <li style="color:var(--muted);border-color:var(--border);">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3 3 7-7"/></svg>
+          <span>Přijetí faktur e-mailem</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section id="jak-funguje" style="background:var(--bg2);">
+  <div class="lbl reveal">Jak to funguje</div>
+  <h2 class="reveal">Pět kroků. Jednou nastavíte, pak jen klikáte.</h2>
+  <div class="flow reveal" style="margin-top:32px;">
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-circle">1</div><div class="flow-connector"></div></div>
+      <div class="flow-body"><div class="flow-tag">NAHRÁNÍ</div><h3>Nahrajte PDF fakturu</h3><p>Přetáhněte PDF do aplikace nebo počkejte, až vám faktura přijde e-mailem. Podporujeme i skenované faktury — AI si poradí s rozmazaným textem.</p></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-circle">2</div><div class="flow-connector"></div></div>
+      <div class="flow-body"><div class="flow-tag">AI EXTRAKCE</div><h3>AI přečte všechna data</h3><p>Claude AI extrahuje dodavatele, IČO, částku, datum splatnosti, číslo faktury i položky. Do 10 sekund vidíte strukturovaná data.</p></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-circle">3</div><div class="flow-connector"></div></div>
+      <div class="flow-body"><div class="flow-tag">ÚČETNÍ KÓD</div><h3>Návrh účetního kódu</h3><p>Na základě obsahu faktury AI navrhne správný účetní kód (518, 501, 521...) a vysvětlí proč. Vy souhlasíte nebo změníte za 2 sekundy.</p></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-circle">4</div><div class="flow-connector"></div></div>
+      <div class="flow-body"><div class="flow-tag">KONTROLA</div><h3>Zkontrolujete a schválíte</h3><p>Vidíte přesně co se odešle. Nic neopravujete ručně, pokud není chyba. Jeden klik stačí.</p></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-circle">5</div></div>
+      <div class="flow-body"><div class="flow-tag">ODESLÁNÍ</div><h3>Faktura je v iDokladu nebo Fakturoidu</h3><p>Přijatá faktura se automaticky zaúčtuje ve vašem účetním systému. Žádné přepisy, žádné chyby z ručního zadávání.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="lbl reveal">Proč to dává smysl</div>
+  <h2 class="reveal">Co vám to konkrétně ušetří.</h2>
+  <div class="sales-grid reveal">
+    <div class="sale-card">
+      <div class="sale-ico">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h3>5 minut místo 30</h3>
+      <p>Průměrná faktura zabere účetnímu nebo podnikateli 15–30 minut včetně přepisování, hledání a archivace. S AI je to 5 minut — nebo 30 sekund, pokud přijde e-mailem.</p>
+    </div>
+    <div class="sale-card">
+      <div class="sale-ico">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3>Méně chyb v účetnictví</h3>
+      <p>Ruční přepisování číslic je zdroj č. 1 chyb v přijatých fakturách. AI čte přesně — IČO, částky, DPH. Vy jen potvrdíte.</p>
+    </div>
+    <div class="sale-card">
+      <div class="sale-ico">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <h3>Funguje v prohlížeči</h3>
+      <p>Žádná instalace, žádný plugin. Přihlásíte se, připojíte iDoklad nebo Fakturoid a za 10 minut zpracujete první fakturu. Funguje na počítači i telefonu.</p>
+    </div>
+    <div class="sale-card">
+      <div class="sale-ico">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3>Faktury e-mailem automaticky</h3>
+      <p>Připojíte Gmail nebo IMAP schránku. Faktura přijde e-mailem → AI ji přečte → čeká na vaše schválení. Nula ruční práce při příjmu.</p>
+    </div>
+  </div>
+  <div class="roi-bar reveal">
+    <div class="roi-stat"><div class="roi-val">30 s</div><div class="roi-lbl">zpracování jedné faktury</div></div>
+    <div class="roi-div"></div>
+    <div class="roi-stat"><div class="roi-val">99%</div><div class="roi-lbl">přesnost AI extrakce</div></div>
+    <div class="roi-div"></div>
+    <div class="roi-stat"><div class="roi-val">0 Kč</div><div class="roi-lbl">v beta verzi zdarma</div></div>
+  </div>
+</section>
+
+<section style="background:var(--bg2);">
+  <div class="cta-sec">
+    <h2>Zpracujte první fakturu dnes.</h2>
+    <p>Registrace zabere 2 minuty. Žádná kreditní karta. V beta verzi zdarma.</p>
+    <div class="cta-btns">
+      <a href="/register" class="btn-p">Zkusit zdarma <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7h9M9 3l4 4-4 4"/></svg></a>
+      <a href="/login" class="btn-g">Přihlásit se</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="/" class="fl">AUDE <span>FLOW</span></a>
+  <span class="fc">© 2026 AUDE FLOW · IČO: 10841067</span>
+</footer>
+<script>
+const tt=document.getElementById('tt'),ii=document.getElementById('ti');
+const m='<path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>';
+const s='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+function st(d){document.documentElement.setAttribute('data-theme',d?'dark':'light');ii.innerHTML=d?m:s;localStorage.setItem('t',d?'dark':'light');}
+const sv=localStorage.getItem('t');st(sv?sv==='dark':true);
+tt.addEventListener('click',()=>st(document.documentElement.getAttribute('data-theme')!=='dark'));
+document.querySelectorAll('.reveal').forEach(el=>{new IntersectionObserver(([e])=>{if(e.isIntersecting)el.classList.add('visible');},{threshold:0.1}).observe(el);});
+</script>
+</body>
+</html>
