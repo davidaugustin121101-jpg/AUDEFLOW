@@ -6,8 +6,8 @@ import { Toaster } from '@/components/ui/sonner'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Audeflow AI – Inteligentní kalkulace z e-mailu',
-  description: 'AI asistent, který spáruje poptávku z e-mailu s vaším ceníkem a navrhne hotovou nabídku během sekund.',
+  title: 'Audeflow AI – Faktury do iDokladu jedním kliknutím',
+  description: 'Přetáhni PDF fakturu, Claude AI ji přečte a navrhne účetní kód. Odešli do iDokladu nebo Fakturoidu jedním kliknutím. Žádné ruční přepisování.',
 }
 
 export default function RootLayout({

@@ -7,32 +7,19 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
-import {
-  LayoutDashboard,
-  FileSpreadsheet,
-  Settings,
-  LogOut,
-  Zap,
-  History,
-} from 'lucide-react'
+import { LayoutDashboard, Receipt, Settings, LogOut, Zap } from 'lucide-react'
 
 const navItems = [
   { href: '/dashboard', label: 'Přehled', icon: LayoutDashboard },
-  { href: '/pricelist', label: 'Ceníky', icon: FileSpreadsheet },
-  { href: '/quotes', label: 'Nabídky', icon: History },
+  { href: '/faktury', label: 'Faktury', icon: Receipt },
   { href: '/settings', label: 'Nastavení', icon: Settings },
 ]
 
 interface SidebarProps {
-  profile: {
-    full_name: string | null
-    role: string
-    companies: { name: string } | null
-  } | null
   user: { email?: string }
 }
 
-export function Sidebar({ profile, user }: SidebarProps) {
+export function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
@@ -42,30 +29,23 @@ export function Sidebar({ profile, user }: SidebarProps) {
     router.push('/login')
   }
 
-  const initials = profile?.full_name
-    ? profile.full_name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
-    : user.email?.[0].toUpperCase() ?? '?'
+  const initials = user.email?.[0].toUpperCase() ?? '?'
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col shrink-0">
+    <aside className="w-60 bg-white border-r border-gray-200 flex flex-col shrink-0">
       {/* Logo */}
-      <div className="h-16 px-6 flex items-center gap-2 border-b border-gray-100">
+      <div className="h-16 px-5 flex items-center gap-2.5 border-b border-gray-100">
         <div className="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center">
           <Zap className="h-4 w-4 text-white" />
         </div>
-        <span className="font-bold text-gray-900">Audeflow AI</span>
+        <div>
+          <span className="font-bold text-gray-900 text-sm">Audeflow AI</span>
+          <p className="text-xs text-gray-400 leading-none">Faktury</p>
+        </div>
       </div>
 
-      {/* Company badge */}
-      {profile?.companies && (
-        <div className="px-4 py-3 mx-3 mt-3 bg-blue-50 rounded-xl">
-          <p className="text-xs text-blue-500 font-medium uppercase tracking-wide">Firma</p>
-          <p className="text-sm font-semibold text-blue-900 truncate">{profile.companies.name}</p>
-        </div>
-      )}
-
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav className="flex-1 px-3 py-4 space-y-0.5">
         {navItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + '/')
           return (
@@ -78,7 +58,12 @@ export function Sidebar({ profile, user }: SidebarProps) {
                     : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                 )}
               >
-                <Icon className={cn('h-4 w-4 flex-shrink-0', active ? 'text-blue-600' : 'text-gray-400')} />
+                <Icon
+                  className={cn(
+                    'h-4 w-4 flex-shrink-0',
+                    active ? 'text-blue-600' : 'text-gray-400'
+                  )}
+                />
                 {label}
               </div>
             </Link>
@@ -97,10 +82,7 @@ export function Sidebar({ profile, user }: SidebarProps) {
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
-              {profile?.full_name ?? user.email}
-            </p>
-            <p className="text-xs text-gray-400 capitalize">{profile?.role}</p>
+            <p className="text-xs text-gray-500 truncate">{user.email}</p>
           </div>
           <Button
             variant="ghost"

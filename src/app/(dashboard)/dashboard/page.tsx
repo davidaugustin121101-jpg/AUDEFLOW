@@ -1,148 +1,254 @@
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { FileSpreadsheet, Package, MessageSquare, TrendingUp } from 'lucide-react'
+import { FileText, Clock, CheckCircle2, TrendingUp, Upload, Settings, Mail } from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('company_id, companies(name, plan)')
-    .eq('id', user.id)
-    .single()
-
-  const companyId = profile?.company_id
+  const now = new Date()
+  const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
 
   const [
-    { count: pricelistCount },
-    { count: productCount },
-    { count: quoteCount },
+    { data: pending },
+    { data: thisMonth },
+    { data: recentInvoices },
+    { data: accountingConn },
+    { data: emailConn },
   ] = await Promise.all([
-    supabase.from('pricelist_files').select('*', { count: 'exact', head: true }).eq('company_id', companyId ?? '').eq('status', 'ready'),
-    supabase.from('products').select('*', { count: 'exact', head: true }).eq('company_id', companyId ?? ''),
-    supabase.from('quote_sessions').select('*', { count: 'exact', head: true }).eq('company_id', companyId ?? ''),
+    supabase
+      .from('processed_invoices')
+      .select('id', { count: 'exact' })
+      .eq('user_id', user.id)
+      .in('status', ['pending_review', 'needs_manual_check']),
+    supabase
+      .from('processed_invoices')
+      .select('id, castka_celkem, status')
+      .eq('user_id', user.id)
+      .gte('created_at', firstOfMonth),
+    supabase
+      .from('processed_invoices')
+      .select('id, dodavatel_nazev, castka_celkem, status, created_at, ucetni_kod')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(5),
+    supabase
+      .from('accounting_connections')
+      .select('id, provider')
+      .eq('user_id', user.id)
+      .eq('is_active', true)
+      .maybeSingle(),
+    supabase
+      .from('email_connections')
+      .select('id, provider, email_address')
+      .eq('user_id', user.id)
+      .eq('is_active', true)
+      .maybeSingle(),
   ])
 
-  const { data: recentQuotes } = await supabase
-    .from('quote_sessions')
-    .select('id, email_subject, status, created_at')
-    .eq('company_id', companyId ?? '')
-    .order('created_at', { ascending: false })
-    .limit(5)
+  const totalThisMonth = thisMonth?.length ?? 0
+  const sentThisMonth = thisMonth?.filter((i) => i.status === 'sent_to_accounting').length ?? 0
+  const pendingCount = pending?.length ?? 0
+  const savedHours = Math.round((sentThisMonth * 7) / 60 * 10) / 10
 
-  const company = (Array.isArray(profile?.companies) ? profile?.companies[0] : profile?.companies) as { name: string; plan: string } | null
-  const planLabel = { start: 'START', business: 'BUSINESS', enterprise: 'ENTERPRISE' }[company?.plan ?? 'start'] ?? 'START'
-
-  const stats = [
-    { label: 'Aktivní ceníky', value: pricelistCount ?? 0, icon: FileSpreadsheet, color: 'text-blue-600 bg-blue-50' },
-    { label: 'Produktů v databázi', value: (productCount ?? 0).toLocaleString('cs'), icon: Package, color: 'text-emerald-600 bg-emerald-50' },
-    { label: 'Vygenerovaných nabídek', value: quoteCount ?? 0, icon: MessageSquare, color: 'text-violet-600 bg-violet-50' },
-    { label: 'Ušetřeno hodin (est.)', value: `~${Math.round((quoteCount ?? 0) * 0.5)}`, icon: TrendingUp, color: 'text-orange-600 bg-orange-50' },
-  ]
-
-  const statusColor: Record<string, string> = {
-    draft: 'secondary',
-    sent: 'default',
-    accepted: 'default',
-    rejected: 'destructive',
-  }
-  const statusLabel: Record<string, string> = {
-    draft: 'Koncept',
-    sent: 'Odesláno',
-    accepted: 'Přijato',
-    rejected: 'Odmítnuto',
-  }
+  const isReady = !!accountingConn
 
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Přehled</h1>
-          <p className="text-gray-500 mt-1">{company?.name ?? 'Vaše firma'}</p>
-        </div>
-        <Badge variant="secondary" className="text-blue-700 bg-blue-50 border-blue-200 text-sm px-3 py-1">
-          {planLabel}
-        </Badge>
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">Přehled</h1>
+        <p className="text-sm text-gray-500 mt-1">
+          {user.email}
+        </p>
       </div>
+
+      {/* Setup banner */}
+      {!isReady && (
+        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5">
+          <p className="text-sm font-semibold text-blue-900 mb-1">
+            Připoj fakturační systém pro první fakturu
+          </p>
+          <p className="text-sm text-blue-700 mb-4">
+            Nastav iDoklad nebo Fakturoid – zabere to 1 minutu.
+          </p>
+          <div className="flex gap-3">
+            <Link
+              href="/settings/accounting"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
+            >
+              <Settings className="h-4 w-4" />
+              Nastavit iDoklad / Fakturoid
+            </Link>
+            <Link
+              href="/faktury/upload"
+              className="inline-flex items-center gap-2 border border-blue-200 text-blue-700 hover:bg-blue-100 text-sm font-medium px-4 py-2 rounded-xl transition-colors"
+            >
+              Nahrát fakturu bez připojení →
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map(({ label, value, icon: Icon, color }) => (
-          <Card key={label} className="shadow-none border-gray-200">
-            <CardContent className="p-5">
-              <div className={`inline-flex h-10 w-10 items-center justify-center rounded-xl mb-3 ${color}`}>
-                <Icon className="h-5 w-5" />
-              </div>
-              <div className="text-2xl font-bold text-gray-900">{value}</div>
-              <div className="text-sm text-gray-500 mt-0.5">{label}</div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <StatCard
+          icon={<FileText className="h-5 w-5 text-blue-600" />}
+          label="Tento měsíc"
+          value={String(totalThisMonth)}
+          sub="faktur přijato"
+          color="blue"
+        />
+        <StatCard
+          icon={<CheckCircle2 className="h-5 w-5 text-green-600" />}
+          label="Odesláno"
+          value={String(sentThisMonth)}
+          sub="do účetnictví"
+          color="green"
+        />
+        <StatCard
+          icon={<Clock className="h-5 w-5 text-yellow-600" />}
+          label="Čeká"
+          value={String(pendingCount)}
+          sub="ke schválení"
+          color="yellow"
+        />
+        <StatCard
+          icon={<TrendingUp className="h-5 w-5 text-purple-600" />}
+          label="Ušetřeno"
+          value={`~${savedHours} h`}
+          sub="práce tento měsíc"
+          color="purple"
+        />
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Quick actions */}
-        <Card className="shadow-none border-gray-200">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base font-semibold">Rychlé akce</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <Link href="/pricelist/upload">
-              <Button variant="outline" className="w-full justify-start gap-3 h-12">
-                <FileSpreadsheet className="h-5 w-5 text-blue-600" />
-                <div className="text-left">
-                  <div className="font-medium text-sm">Nahrát ceník</div>
-                  <div className="text-xs text-gray-400">Excel nebo CSV soubor</div>
-                </div>
-              </Button>
-            </Link>
-            <div className="rounded-lg border border-dashed border-gray-300 p-4 text-center">
-              <p className="text-sm text-gray-500 font-medium">Outlook / Gmail Add-in</p>
-              <p className="text-xs text-gray-400 mt-1">Instalace dostupná v nastavení</p>
+      {/* Quick actions */}
+      <div className="grid sm:grid-cols-2 gap-4">
+        <Link
+          href="/faktury/upload"
+          className="flex items-center gap-4 bg-white border border-gray-200 hover:border-blue-300 hover:bg-blue-50/30 rounded-2xl p-5 transition-all group"
+        >
+          <div className="h-10 w-10 rounded-xl bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+            <Upload className="h-5 w-5 text-blue-600" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-gray-900">Nahrát fakturu</p>
+            <p className="text-xs text-gray-500 mt-0.5">PDF → Claude AI → iDoklad</p>
+          </div>
+        </Link>
+
+        {emailConn ? (
+          <div className="flex items-center gap-4 bg-green-50 border border-green-200 rounded-2xl p-5">
+            <div className="h-10 w-10 rounded-xl bg-green-100 flex items-center justify-center">
+              <Mail className="h-5 w-5 text-green-600" />
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Recent quotes */}
-        <Card className="shadow-none border-gray-200">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base font-semibold">Poslední nabídky</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {!recentQuotes?.length ? (
-              <div className="text-center py-8">
-                <MessageSquare className="h-8 w-8 text-gray-300 mx-auto mb-2" />
-                <p className="text-sm text-gray-400">Zatím žádné nabídky</p>
-                <p className="text-xs text-gray-400 mt-1">Aktivujte add-in v Outlooku nebo Gmailu</p>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {recentQuotes.map((q) => (
-                  <div key={q.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
-                        {q.email_subject ?? 'Bez předmětu'}
-                      </p>
-                      <p className="text-xs text-gray-400">
-                        {new Date(q.created_at).toLocaleDateString('cs-CZ')}
-                      </p>
-                    </div>
-                    <Badge variant={statusColor[q.status] as 'secondary' | 'default' | 'destructive'} className="ml-3 shrink-0 text-xs">
-                      {statusLabel[q.status]}
-                    </Badge>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+            <div>
+              <p className="text-sm font-semibold text-gray-900">Email aktivní</p>
+              <p className="text-xs text-gray-500 mt-0.5">
+                {emailConn.email_address} · kontrola každých 15 min
+              </p>
+            </div>
+          </div>
+        ) : (
+          <Link
+            href="/onboarding"
+            className="flex items-center gap-4 bg-white border border-dashed border-gray-300 hover:border-blue-300 rounded-2xl p-5 transition-all group"
+          >
+            <div className="h-10 w-10 rounded-xl bg-gray-100 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+              <Mail className="h-5 w-5 text-gray-400 group-hover:text-blue-500" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-700">Propojit email</p>
+              <p className="text-xs text-gray-400 mt-0.5">Gmail, Outlook nebo IMAP</p>
+            </div>
+          </Link>
+        )}
       </div>
+
+      {/* Recent invoices */}
+      {(recentInvoices?.length ?? 0) > 0 && (
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-semibold text-gray-900">Poslední faktury</h2>
+            <Link href="/faktury" className="text-xs text-blue-600 hover:text-blue-700 font-medium">
+              Zobrazit vše →
+            </Link>
+          </div>
+          <div className="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100 overflow-hidden">
+            {recentInvoices!.map((inv) => (
+              <Link
+                key={inv.id}
+                href={`/faktury/${inv.id}`}
+                className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {inv.dodavatel_nazev ?? 'Neznámý dodavatel'}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    {inv.ucetni_kod && (
+                      <span className="font-mono bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded mr-2">
+                        {inv.ucetni_kod}
+                      </span>
+                    )}
+                    {new Intl.DateTimeFormat('cs-CZ').format(new Date(inv.created_at))}
+                  </p>
+                </div>
+                <div className="text-right shrink-0">
+                  {inv.castka_celkem != null && (
+                    <p className="text-sm font-semibold text-gray-900">
+                      {new Intl.NumberFormat('cs-CZ', { style: 'currency', currency: 'CZK' }).format(inv.castka_celkem)}
+                    </p>
+                  )}
+                  <StatusBadge status={inv.status} />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
+  )
+}
+
+function StatCard({
+  icon,
+  label,
+  value,
+  sub,
+  color,
+}: {
+  icon: React.ReactNode
+  label: string
+  value: string
+  sub: string
+  color: 'blue' | 'green' | 'yellow' | 'purple'
+}) {
+  const bg = { blue: 'bg-blue-50', green: 'bg-green-50', yellow: 'bg-yellow-50', purple: 'bg-purple-50' }[color]
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 p-4">
+      <div className={`inline-flex p-2 rounded-lg ${bg} mb-3`}>{icon}</div>
+      <p className="text-2xl font-bold text-gray-900">{value}</p>
+      <p className="text-xs text-gray-500 mt-0.5">{label}</p>
+      <p className="text-xs text-gray-400">{sub}</p>
+    </div>
+  )
+}
+
+function StatusBadge({ status }: { status: string }) {
+  const map: Record<string, { label: string; cls: string }> = {
+    pending_review: { label: 'Čeká', cls: 'bg-yellow-50 text-yellow-700' },
+    needs_manual_check: { label: 'Zkontrolovat', cls: 'bg-orange-50 text-orange-700' },
+    sent_to_accounting: { label: 'Odesláno', cls: 'bg-green-50 text-green-700' },
+    rejected: { label: 'Zamítnuto', cls: 'bg-gray-100 text-gray-500' },
+    error: { label: 'Chyba', cls: 'bg-red-50 text-red-600' },
+  }
+  const s = map[status] ?? { label: status, cls: 'bg-gray-100 text-gray-500' }
+  return (
+    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${s.cls}`}>{s.label}</span>
   )
 }

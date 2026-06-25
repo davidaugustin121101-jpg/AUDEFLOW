@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Audeflow AI – Faktury
 
-## Getting Started
+**PDF faktura → Claude AI → iDoklad / Fakturoid jedním kliknutím**
 
-First, run the development server:
+Přetáhni PDF fakturu od dodavatele. Claude AI ji přečte, navrhne účetní kód a odešle přímo do iDokladu nebo Fakturoidu. Žádné ruční přepisování, žádný export souboru.
+
+## Tech stack
+
+- **Next.js 16** (App Router, TypeScript)
+- **Supabase** – PostgreSQL + Auth + RLS + Vault
+- **Anthropic Claude** – `claude-sonnet-4-6` s PDF vision
+- **iDoklad REST API v3** – OAuth2 client_credentials
+- **Fakturoid REST API v3** – Bearer token
+- **Tailwind CSS v4**
+- **Vercel** – hosting + cron
+
+## Jak spustit lokálně
 
 ```bash
+npm install
+cp .env.example .env.local
+# Vyplň hodnoty v .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Otevři [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Databáze (Supabase)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Spusť migrace v pořadí:
 
-## Learn More
+```bash
+# V Supabase SQL Editoru nebo přes CLI:
+supabase/migrations/001_initial_schema.sql
+supabase/migrations/002_invoice_module.sql
+supabase/migrations/003_ucetni_kod_idoklad_oauth.sql
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Klíčové routes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| URL | Popis |
+|-----|-------|
+| `/` | Landing page |
+| `/register` | Registrace |
+| `/login` | Přihlášení |
+| `/faktury` | Seznam faktur |
+| `/faktury/upload` | Drag & drop upload |
+| `/faktury/[id]` | Detail faktury + schválení |
+| `/settings/accounting` | Napojení iDoklad / Fakturoid |
+| `/settings/email` | Napojení Gmail / Outlook / IMAP |
+| `/api/extract` | POST – PDF upload → Claude extrakce |
+| `/api/invoices/approve` | POST – odeslání do účetního systému |
+| `/api/cron/check-emails` | Cron – kontrola emailu každých 15 min |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Ceník
 
-## Deploy on Vercel
+| Plán | Cena | Limit |
+|------|------|-------|
+| Free | 0 Kč/měs | 10 faktur |
+| Starter | 299 Kč/měs | 100 faktur |
+| Pro | 599 Kč/měs | Neomezeno |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Platby: ruční bankovní převod. Admin mění `plan` v tabulce `user_profiles` ručně.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy na Vercel
+
+1. Propoj GitHub repo s Vercel
+2. Nastav environment variables (viz `.env.example`)
+3. Nastav custom domain `faktury.audeflow.cz` nebo podsložka
+
+Cron job (`/api/cron/check-emails`) běží každých 15 minut – nakonfigurováno v `vercel.json`.
+
+## Bezpečnost
+
+- PDF soubory se nikde neukládají – zpracovávají se pouze v paměti
+- API klíče jsou šifrované v Supabase Vault
+- RLS aktivní na všech tabulkách
+- Každá akce je logována do `invoice_audit_log`
+
+---
+
+Produkt [audeflow.cz](https://audeflow.cz) · podpora@audeflow.cz
