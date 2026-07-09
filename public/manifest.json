@@ -1,0 +1,10 @@
+{
+  "name": "AUDE FLOW",
+  "short_name": "AUDE FLOW",
+  "description": "AI automatizace pro malé firmy",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "lang": "cs"
+}

@@ -1,10 +1,8 @@
 {
-  "installCommand": "npm install",
-  "buildCommand": "npm run build",
-  "crons": [
-    {
-      "path": "/api/cron/check-emails",
-      "schedule": "0 8 * * *"
-    }
-  ]
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "trailingSlash": false
 }
