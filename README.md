@@ -9,7 +9,6 @@ Statické marketingové stránky pro [audeflow.cz](https://audeflow.cz).
 | `public/index.html` | https://audeflow.cz/ |
 | `public/lp-faktury.html` | https://audeflow.cz/lp-faktury.html |
 | `public/lp-poptavky.html` | https://audeflow.cz/lp-poptavky.html |
-| `public/lp-chat.html` | https://audeflow.cz/lp-chat.html |
 | `public/lp-recenze.html` | https://audeflow.cz/lp-recenze.html |
 | `public/lp-web.html` | https://audeflow.cz/lp-web.html |
 

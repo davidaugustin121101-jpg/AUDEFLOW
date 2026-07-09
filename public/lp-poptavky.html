@@ -330,6 +330,5 @@ const sv=localStorage.getItem('t');st(sv?sv==='dark':true);
 tt.addEventListener('click',()=>st(document.documentElement.getAttribute('data-theme')!=='dark'));
 document.querySelectorAll('.reveal').forEach(el=>{new IntersectionObserver(([e])=>{if(e.isIntersecting)el.classList.add('visible');},{threshold:0.1}).observe(el);});
 </script>
-<script src="chatbot.js"></script>
 </body>
 </html>

@@ -3,7 +3,6 @@
   <url><loc>https://audeflow.cz/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://audeflow.cz/lp-faktury.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://audeflow.cz/lp-poptavky.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://audeflow.cz/lp-chat.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://audeflow.cz/lp-recenze.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://audeflow.cz/lp-web.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
