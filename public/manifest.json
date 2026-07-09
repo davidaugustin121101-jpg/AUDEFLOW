@@ -1,10 +1,11 @@
 {
-  "name": "AUDE FLOW",
+  "name": "AUDE FLOW — Automatické zpracování faktur",
   "short_name": "AUDE FLOW",
-  "description": "AI automatizace pro malé firmy",
+  "description": "PDF faktura do iDokladu, Fakturoidu nebo SuperFaktury za 30 sekund. Vytěžení od 2,99 Kč, 10 faktur měsíčně zdarma.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
-  "lang": "cs"
+  "lang": "cs",
+  "categories": ["business", "finance", "productivity"]
 }
